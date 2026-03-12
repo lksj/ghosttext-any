@@ -1,0 +1,28 @@
+name: Build ghosttext-any for Win7
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install MinGW
+        run: sudo apt-get update && sudo apt-get install -y mingw-w64
+
+      - name: Install Rust 1.75.0
+        uses: dtolnay/rust-toolchain@1.75.0
+        with:
+          targets: x86_64-pc-windows-gnu
+
+      - name: Build ghosttext-any from crates.io
+        run: |
+          # Устанавливаем через cargo напрямую с crates.io
+          # Флаг --target обеспечивает кросс-компиляцию под Win7
+          cargo install ghosttext-any --version 2.0.1 \
+            --target x86_64-pc-windows-gnu \
+            --root ./output
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ghosttext-any-win7
+          path: output/bin/ghosttext-any.exe
