@@ -1,10 +1,13 @@
-name: Build ghosttext-any for Win7
+name: Build ghosttext-any for Win7 (Fork)
 on: [push, workflow_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Fork Source
+        uses: actions/checkout@v4 # Тот самый важный шаг
+
       - name: Install MinGW
         run: sudo apt-get update && sudo apt-get install -y mingw-w64
 
@@ -13,14 +16,13 @@ jobs:
         with:
           targets: x86_64-pc-windows-gnu
 
-      - name: Build from fork source
+      - name: Build with Cargo.lock
         run: |
-          # Собираем бинарник из текущей папки репозитория
-          # Флаг --locked заставит использовать ваш Cargo.lock
+          # Собираем из исходников форка, строго следуя Cargo.lock
           cargo build --release --target x86_64-pc-windows-gnu --locked
 
-      - name: Upload Artifact
+      - name: Upload Result
         uses: actions/upload-artifact@v4
         with:
           name: ghosttext-any-win7
-          path: output/bin/ghosttext-any.exe
+          path: target/x86_64-pc-windows-gnu/release/ghosttext-any.exe
