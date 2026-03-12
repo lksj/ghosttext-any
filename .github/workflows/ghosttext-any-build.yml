@@ -24,6 +24,8 @@ jobs:
       - name: Find the binary
         run: find target -name "ghosttext-any.exe"
 
+      - name: Locate all executables
+        run: find target -name "*.exe"
 
       - name: Upload Result
         uses: actions/upload-artifact@v4
