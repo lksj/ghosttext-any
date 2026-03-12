@@ -21,6 +21,10 @@ jobs:
           # Собираем из исходников форка, строго следуя Cargo.lock
           cargo build --release --target x86_64-pc-windows-gnu --locked
 
+      - name: Find the binary
+        run: find target -name "ghosttext-any.exe"
+
+
       - name: Upload Result
         uses: actions/upload-artifact@v4
         with:
