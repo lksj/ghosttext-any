@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ghosttext-any-win7
-          path: target/x86_64-pc-windows-gnu/release/ghosttext-any.exe
+          path: target/x86_64-pc-windows-gnu/release/gtany.exe
